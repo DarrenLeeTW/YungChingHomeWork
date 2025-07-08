@@ -1,0 +1,6 @@
+@YungChingHomeWork_HostAddress = http://localhost:5156
+
+GET {{YungChingHomeWork_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
