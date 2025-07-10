@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using YungChingHomeWork.Models;
 using YungChingHomeWork.Services;
-using System.Collections.Generic;
-using System.Linq;
-using NLog;
 
 namespace YungChingHomeWork.Controllers
 {
@@ -15,16 +13,6 @@ namespace YungChingHomeWork.Controllers
     [Route("api/[controller]")]
     public class HouseListingController : ControllerBase
     {
-        /// <summary>
-        /// 用於測試的記憶體內部售屋資料清單。
-        /// </summary>
-        private static List<HouseListing> houseListings = new List<HouseListing>();
-
-        /// <summary>
-        /// 售屋資料的唯一 ID 計數器。
-        /// </summary>
-        private static int nextId = 1;
-
         /// <summary>
         /// 日誌記錄器。
         /// </summary>
@@ -98,6 +86,23 @@ namespace YungChingHomeWork.Controllers
                 return NotFound();
             }
             return Ok(listing);
+        }
+
+        /// <summary>
+        /// 刪除售屋資料。
+        /// </summary>
+        /// <param name="id">要刪除的售屋資料 ID。</param>
+        /// <returns>成功時返回 NoContent，若資料不存在則返回 NotFound。</returns>
+        [HttpDelete("{id}")]
+        public IActionResult DeleteHouseListing(int id)
+        {
+            logger.Info($"Deleting house listing with ID: {id}.");
+            var success = houseListingService.DeleteHouseListing(id);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

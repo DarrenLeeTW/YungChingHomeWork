@@ -1,43 +1,41 @@
 using YungChingHomeWork.Models;
+using YungChingHomeWork.Repositories;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace YungChingHomeWork.Services
 {
     public class HouseListingService
     {
-        private static List<HouseListing> houseListings = new List<HouseListing>();
-        private static int nextId = 1;
+        private readonly IHouseListingRepository _repository;
+
+        public HouseListingService(IHouseListingRepository repository)
+        {
+            _repository = repository;
+        }
 
         public HouseListing CreateHouseListing(HouseListing newListing)
         {
-            newListing.Id = nextId++;
-            houseListings.Add(newListing);
-            return newListing;
+            return _repository.Create(newListing);
         }
 
         public bool UpdateHouseListing(int id, HouseListing updatedListing)
         {
-            var existingListing = houseListings.FirstOrDefault(h => h.Id == id);
-            if (existingListing == null)
-            {
-                return false;
-            }
+            return _repository.Update(id, updatedListing);
+        }
 
-            existingListing.Name = updatedListing.Name;
-            existingListing.Address = updatedListing.Address;
-            existingListing.Price = updatedListing.Price;
-            return true;
+        public bool DeleteHouseListing(int id)
+        {
+            return _repository.Delete(id);
         }
 
         public List<HouseListing> GetAllHouseListings()
         {
-            return houseListings;
+            return _repository.GetAll();
         }
 
-        public HouseListing GetHouseListingById(int id)
+        public HouseListing? GetHouseListingById(int id)
         {
-            return houseListings.FirstOrDefault(h => h.Id == id);
+            return _repository.GetById(id);
         }
     }
 }
