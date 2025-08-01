@@ -1,23 +1,12 @@
-# Yu## 功能特色
-
-- ✅ RESTful API 設計
-- ✅ SQLite 資料庫整合 (使用 Dapper ORM)
-- ✅ Swagger/OpenAPI 文件
-- ✅ NLog 日誌記錄
-- ✅ 依賴注入 (Dependency Injection)
-- ✅ 三層架構 (Controller + Service + Repository)
-- ✅ Repository 模式實現資料存取層omeWork - 售屋資料管理 API
-
-這是一個使用 ASP.NET Core 8.0 開發的 RESTful Web API，用於管理售屋資料。提供新增、修改、刪除、查詢售屋資料的功能。
-
 ## 功能特色
-
--  RESTful API 設計
--  SQLite 資料庫整合 (使用 Dapper ORM)
--  Swagger/OpenAPI 文件
--  NLog 日誌記錄
--  依賴注入 (Dependency Injection)
--  分層架構 (Controller + Service)
+這是一個使用 ASP.NET Core 8.0 開發的 RESTful Web API 簡單的Demo，用於管理售屋資料。提供新增、修改、刪除、查詢售屋資料的功能。
+- RESTful API 設計
+- SQLite 資料庫整合 (使用 Dapper ORM)
+- Swagger/OpenAPI 文件
+- NLog 日誌記錄
+- 依賴注入 (Dependency Injection)
+- 三層架構 (Controller + Service + Repository)
+- Repository 模式實現資料存取層omeWork - 售屋資料管理 API
 
 ## 技術
 
