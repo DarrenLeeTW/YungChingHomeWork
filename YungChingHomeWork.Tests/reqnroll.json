@@ -1,0 +1,17 @@
+{
+  "$schema": "https://specflow.org/specflow-config.json",
+  "bindingCulture": {
+    "name": "zh-TW"
+  },
+  "language": {
+    "feature": "zh-TW"
+  },
+  "runtime": {
+    "stopAtFirstError": false
+  },
+  "trace": {
+    "stepDefinitionSkeletons": {
+      "style": "RegexAttribute"
+    }
+  }
+}

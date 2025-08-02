@@ -36,9 +36,25 @@ namespace YungChingHomeWork.Controllers
         [HttpPost]
         public IActionResult CreateHouseListing([FromBody] HouseListing newListing)
         {
-            logger.Info("Creating a new house listing.");
-            var createdListing = houseListingService.CreateHouseListing(newListing);
-            return CreatedAtAction(nameof(GetHouseListingById), new { id = createdListing.Id }, createdListing);
+            try
+            {
+                if (newListing == null)
+                {
+                    return BadRequest("Request body is required.");
+                }
+                if (string.IsNullOrWhiteSpace(newListing.Name) || string.IsNullOrWhiteSpace(newListing.Address) || newListing.Price <= 0)
+                {
+                    return BadRequest("Invalid house listing data.");
+                }
+                logger.Info("Creating a new house listing.");
+                var createdListing = houseListingService.CreateHouseListing(newListing);
+                return CreatedAtAction(nameof(GetHouseListingById), new { id = createdListing.Id }, createdListing);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error occurred while creating a new house listing.");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
 
         /// <summary>
@@ -50,13 +66,29 @@ namespace YungChingHomeWork.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateHouseListing(int id, [FromBody] HouseListing updatedListing)
         {
-            logger.Info($"Updating house listing with ID: {id}.");
-            var success = houseListingService.UpdateHouseListing(id, updatedListing);
-            if (!success)
+            try
             {
-                return NotFound();
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid id.");
+                }
+                if (updatedListing == null || string.IsNullOrWhiteSpace(updatedListing.Name) || string.IsNullOrWhiteSpace(updatedListing.Address) || updatedListing.Price <= 0)
+                {
+                    return BadRequest("Invalid house listing data.");
+                }
+                logger.Info($"Updating house listing with ID: {id}.");
+                var success = houseListingService.UpdateHouseListing(id, updatedListing);
+                if (!success)
+                {
+                    return NotFound();
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"Error occurred while updating house listing with ID: {id}.");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
 
         /// <summary>
@@ -66,9 +98,21 @@ namespace YungChingHomeWork.Controllers
         [HttpGet]
         public IActionResult GetAllHouseListings()
         {
-            logger.Info("Retrieving all house listings.");
-            var listings = houseListingService.GetAllHouseListings();
-            return Ok(listings);
+            try
+            {
+                logger.Info("Retrieving all house listings.");
+                var listings = houseListingService.GetAllHouseListings();
+                if (listings == null || listings.Count == 0)
+                {
+                    return NotFound("No house listings found.");
+                }
+                return Ok(listings);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error occurred while retrieving all house listings.");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
 
         /// <summary>
@@ -79,13 +123,25 @@ namespace YungChingHomeWork.Controllers
         [HttpGet("{id}")]
         public IActionResult GetHouseListingById(int id)
         {
-            logger.Info($"Retrieving house listing with ID: {id}.");
-            var listing = houseListingService.GetHouseListingById(id);
-            if (listing == null)
+            try
             {
-                return NotFound();
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid id.");
+                }
+                logger.Info($"Retrieving house listing with ID: {id}.");
+                var listing = houseListingService.GetHouseListingById(id);
+                if (listing == null)
+                {
+                    return NotFound("No house listings found.");
+                }
+                return Ok(listing);
             }
-            return Ok(listing);
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"Error occurred while retrieving house listing with ID: {id}.");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
 
         /// <summary>
@@ -96,13 +152,25 @@ namespace YungChingHomeWork.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteHouseListing(int id)
         {
-            logger.Info($"Deleting house listing with ID: {id}.");
-            var success = houseListingService.DeleteHouseListing(id);
-            if (!success)
+            try
             {
-                return NotFound();
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid id.");
+                }
+                logger.Info($"Deleting house listing with ID: {id}.");
+                var success = houseListingService.DeleteHouseListing(id);
+                if (!success)
+                {
+                    return NotFound();
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"Error occurred while deleting house listing with ID: {id}.");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
     }
 }
