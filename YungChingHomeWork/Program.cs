@@ -1,5 +1,5 @@
-using YungChingHomeWork.Services;
 using YungChingHomeWork.Repositories;
+using YungChingHomeWork.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,3 +44,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
